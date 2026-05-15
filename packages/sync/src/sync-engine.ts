@@ -24,7 +24,6 @@ export class SyncEngine extends EventEmitter<SyncEvents> {
   private plugins = new Map<string, SyncPlugin>();
   private activePluginVersion = 1;
 
-
   constructor(
     private readonly config: ZerithDBConfig,
     private readonly db: DbClient,
@@ -85,7 +84,6 @@ export class SyncEngine extends EventEmitter<SyncEvents> {
     });
   }
 
-
   /** Current sync state snapshot */
   get state(): Readonly<SyncState> {
     return this._state;
@@ -138,7 +136,11 @@ export class SyncEngine extends EventEmitter<SyncEvents> {
    * Apply a remote CRDT update to the local document.
    * Called by the network layer when a peer sends an update.
    */
-  async applyRemoteUpdate(collectionName: string, update: Uint8Array, fromPeer: string): Promise<void> {
+  async applyRemoteUpdate(
+    collectionName: string,
+    update: Uint8Array,
+    fromPeer: string
+  ): Promise<void> {
     let finalUpdate: Uint8Array | null = update;
     for (const plugin of this.plugins.values()) {
       if (plugin.onBeforeApplyUpdate) {
@@ -168,9 +170,10 @@ export class SyncEngine extends EventEmitter<SyncEvents> {
 
   private onPeerUpdate(msg: { type: string; payload: Uint8Array | string; from: string }): void {
     if (msg.type === "sync-upgrade-offer") {
-      const payloadStr = typeof msg.payload === "string" ? msg.payload : new TextDecoder().decode(msg.payload);
+      const payloadStr =
+        typeof msg.payload === "string" ? msg.payload : new TextDecoder().decode(msg.payload);
       const offer = JSON.parse(payloadStr) as { pluginUrl: string; version: number };
-      
+
       // Auto-accept and load for this MVP.
       this.loadPlugin(offer.pluginUrl)
         .then(() => {
@@ -183,7 +186,9 @@ export class SyncEngine extends EventEmitter<SyncEvents> {
           // Failure to upgrade -> disconnect peer
           // Assuming `network` has a way to disconnect or we just ignore.
           // We can emit an error or handle it.
-          console.warn(`Peer ${msg.from} failed to upgrade. Disconnecting is currently not natively supported in NetworkManager's public API directly from SyncEngine, but we will ignore their updates.`);
+          console.warn(
+            `Peer ${msg.from} failed to upgrade. Disconnecting is currently not natively supported in NetworkManager's public API directly from SyncEngine, but we will ignore their updates.`
+          );
         });
       return;
     }
