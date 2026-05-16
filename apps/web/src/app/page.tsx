@@ -1,6 +1,7 @@
 "use client";
-
+import SocialGraph from "../components/SocialGraph";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import {
   ArrowRight,
   Database,
@@ -75,7 +76,7 @@ export default function LandingPage() {
             <a
               href="https://github.com/Zerith-Labs/ZerithDB"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hidden md:flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black transition-colors"
             >
               <svg
@@ -167,7 +168,7 @@ export default function LandingPage() {
           <a
             href="https://github.com/Zerith-Labs/ZerithDB"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white text-gray-900 border border-gray-200 px-6 py-3.5 rounded-xl font-medium text-base hover:bg-gray-50 transition-all w-full sm:w-auto justify-center shadow-sm"
           >
             <svg
@@ -413,7 +414,7 @@ export default function LandingPage() {
             transition={{ duration: 0.8 }}
             className="bg-white p-8 rounded-2xl shadow-sm border border-gray-200"
           >
-            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-6">
+            <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">
               Average Write Latency (ms)
             </h3>
             <div className="space-y-6">
@@ -642,7 +643,7 @@ export default function LandingPage() {
               whileTap={{ scale: 0.95 }}
               href="https://github.com/Zerith-Labs/ZerithDB"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="bg-gray-100 text-gray-900 px-8 py-4 rounded-xl font-medium text-base hover:bg-gray-200 transition-all w-full sm:w-auto flex items-center justify-center gap-2"
             >
               <svg
@@ -682,26 +683,42 @@ export default function LandingPage() {
             </Link>
             <a
               href="https://github.com/Zerith-Labs/ZerithDB"
+              target="_blank"
+              rel="noreferrer"
               className="hover:text-gray-900 transition-colors"
             >
               GitHub
             </a>
-            <Link href="/blog" className="hover:text-gray-900 transition-colors">
+            <Link
+              href="/"
+              onClick={() => toast("Blog will be available soon")}
+              className="hover:text-gray-900 transition-colors cursor-pointer"
+            >
               Blog
             </Link>
-            <Link href="/pricing" className="hover:text-gray-900 transition-colors">
+            <Link
+              href="/"
+              onClick={() => toast("Pricing will be available soon")}
+              className="hover:text-gray-900 transition-colors cursor-pointer"
+            >
               Pricing
             </Link>
-            <a href="#" className="hover:text-gray-900 transition-colors">
+            <a
+              href="https://discord.gg/MhvuDvzWfF"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-900 transition-colors"
+            >
               Discord
             </a>
           </div>
 
-          <div className="text-sm text-gray-400">
+          <div className="text-sm text-gray-500">
             © {new Date().getFullYear()} ZerithDB. Open Source.
           </div>
         </div>
       </footer>
+      <SocialGraph />
     </main>
   );
 }
