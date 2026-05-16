@@ -8,6 +8,7 @@ import type {
   UpdateSpec,
 } from "zerithdb-core";
 import { ZerithDBError, ErrorCode } from "zerithdb-core";
+import { generateFractionalIndex } from "./fractional-index.js";
 
 /**
  * A handle to a single named collection within the ZerithDB local database.
@@ -185,6 +186,33 @@ export class CollectionClient<T extends Record<string, any> = Record<string, any
     next._updatedAt = updatedAt;
 
     return next as Document<T>;
+  }
+
+
+  /**
+   * Reorders a document by generating a new fractional index.
+   * Only the targeted document gets updated.
+   *
+   * @param id The ID of the document to move
+   * @param before The order string of the document before the new position (null if moving to start)
+   * @param after The order string of the document after the new position (null if moving to end)
+   * @param field The field storing the order key (defaults to "order")
+   * @returns The newly generated order string
+   */
+  async reorder(
+    id: string,
+    before: string | null,
+    after: string | null,
+    field = "order"
+  ): Promise<string> {
+    const newOrder = generateFractionalIndex(before, after);
+
+    await this.update(
+      { _id: id } as never,
+      { $set: { [field]: newOrder } as never }
+    );
+
+    return newOrder;
   }
 
   private matchesFilter(doc: Document<T>, filter: QueryFilter<T>): boolean {

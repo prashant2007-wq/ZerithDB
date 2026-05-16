@@ -20,3 +20,4 @@ export type {
 } from "zerithdb-core";
 
 export { ZerithDBError, ErrorCode } from "zerithdb-core";
+export { generateFractionalIndex } from "zerithdb-db";
