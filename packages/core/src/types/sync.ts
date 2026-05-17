@@ -49,3 +49,10 @@ export interface SyncPlugin {
     update: Uint8Array
   ) => Uint8Array | null | Promise<Uint8Array | null>;
 }
+
+export interface EphemeralPeerState<TState extends Record<string, unknown>> {
+  peerId: string;
+  state: TState;
+  sequence: number;
+  updatedAt: number;
+}

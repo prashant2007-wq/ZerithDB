@@ -67,6 +67,11 @@ export class NetworkManager extends EventEmitter<NetworkEvents> {
     super();
   }
 
+  /** The local peer ID */
+  get peerId(): string {
+    return this.localPeerId;
+  }
+
   /** The transport type currently in use, or null if not connected */
   get transportType(): "websocket" | "polling" | null {
     return this.activeTransportType;
