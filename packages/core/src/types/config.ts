@@ -35,13 +35,26 @@ export interface SyncConfig {
   transport?: "auto" | "websocket" | "polling";
 
   /**
-   * Configuration for ephemeral state (presence, cursors, etc.).
+   * Configuration options for low-latency ephemeral sync state.
    */
-  ephemeral?: {
-    throttleMs?: number;
-    staleAfterMs?: number;
-    cleanupIntervalMs?: number;
-  };
+  ephemeral?: EphemeralConfig;
+}
+
+export interface EphemeralConfig {
+  /**
+   * Minimum delay between ephemeral state broadcasts.
+   */
+  throttleMs?: number;
+
+  /**
+   * Time after which ephemeral state is considered stale.
+   */
+  staleAfterMs?: number;
+
+  /**
+   * Interval for cleaning up stale ephemeral state.
+   */
+  cleanupIntervalMs?: number;
 }
 
 export interface AuthConfig {
@@ -73,6 +86,12 @@ export interface NetworkConfig {
    * @default 1000
    */
   reconnectDelay?: number;
+
+  /** Optional human-readable peer alias */
+  name?: string;
+
+  /** Optional ENS identity */
+  ens?: string;
 }
 
 export interface ZerithDBConfig {
