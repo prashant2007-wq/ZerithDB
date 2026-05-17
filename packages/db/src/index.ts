@@ -1,2 +1,13 @@
 export { DbClient, CollectionClient } from "./db-client.js";
 export { generateFractionalIndex } from "./fractional-index.js";
+export { LocalCloudBackupAdapter, GoogleDriveBackupTarget, DropboxBackupTarget } from "./backup.js";
+export type {
+  BackupExportOptions,
+  BackupSnapshot,
+  BackupUploadInput,
+  BackupUploadResult,
+  CloudBackupTarget,
+  GoogleDriveBackupTargetOptions,
+  DropboxBackupTargetOptions,
+  LocalCloudBackupOptions,
+} from "./backup.js";
